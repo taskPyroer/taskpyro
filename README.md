@@ -2,8 +2,8 @@
 
 TaskPyro 是一个轻量级的 Python 任务调度平台，专注于提供简单易用的任务管理和爬虫调度解决方案。它能够帮助您轻松管理和调度 Python 任务，特别适合需要定时执行的爬虫任务和数据处理任务。
 
-![登录界面](https://pic1.imgdb.cn/item/67c11dffd0e0a243d407996c.png)
-![主界面](https://pic1.imgdb.cn/item/67c11ee9d0e0a243d4079beb.jpg)
+![登录界面](https://docs.taskpyro.cn/assets/login-QKA-PcHl.png)
+![主界面](https://docs.taskpyro.cn/assets/dashboard-G8ZOuNvN.png)
 
 ## 开发背景
 
