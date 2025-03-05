@@ -89,7 +89,7 @@ TaskPyro 提供了基于 Docker 的快速部署方案，让您能够轻松地在
 
 gitub
 ```bash
-git clone https://gitee.com/hu_yupeng123/taskpyrodocker.git
+git clone https://github.com/taskPyroer/taskpyro.git
 ```
 
 gitee
