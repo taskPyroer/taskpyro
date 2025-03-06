@@ -2,8 +2,8 @@
 
 TaskPyro 是一个轻量级的 Python 任务调度平台，专注于提供简单易用的任务管理和爬虫调度解决方案。它能够帮助您轻松管理和调度 Python 任务，特别适合需要定时执行的爬虫任务和数据处理任务。
 
-![登录界面](https://pic1.imgdb.cn/item/67c11dffd0e0a243d407996c.png)
-![主界面](https://pic1.imgdb.cn/item/67c11ee9d0e0a243d4079beb.jpg)
+![登录界面](https://www.helloimg.com/i/2025/03/06/67c8f0ad6c9a1.png)
+![主界面](https://www.helloimg.com/i/2025/03/06/67c8f0adef1f7.png)
 
 ## 开发背景
 
@@ -255,7 +255,7 @@ rm -rf /opt/taskpyrodata
 # 系统资源监控
 
 仪表盘提供了实时的系统资源使用情况监控，帮助您及时了解系统的运行状态。
-![仪表盘界面](https://pic1.imgdb.cn/item/67c12084d0e0a243d407a0be.png)
+![仪表盘界面](https://www.helloimg.com/i/2025/03/06/67c8f0adef1f7.png)
 ## CPU使用率
 
 显示当前系统的CPU使用百分比，以及最近的CPU负载情况。
@@ -302,13 +302,13 @@ TaskPyro 提供了直观的项目管理界面，支持添加和编辑项目。�
 
 在项目管理界面，您可以查看已创建的项目列表。每个项目都包含以下信息：
 
-![项目界面](https://pic1.imgdb.cn/item/67c122fcd0e0a243d407a455.png)
+![项目界面](https://www.helloimg.com/i/2025/03/06/67c8f2945051f.png)
 
 ## 添加/编辑项目
 
 在项目管理界面，您可以通过点击"新建项目"按钮来创建新项目。新建项目界面如下：
 
-![新建项目界面](https://pic1.imgdb.cn/item/67c122fbd0e0a243d407a454.png)
+![新建项目界面](https://www.helloimg.com/i/2025/03/06/67c8f2bff1156.png)
 
 以下是各个字段的详细说明：
 
@@ -414,16 +414,16 @@ TaskPyro提供了强大而灵活的Python虚拟环境管理功能，默认支持
 
 ## 界面展示
 ### 入口界面
-![入口界面](https://pic1.imgdb.cn/item/67c123b2d0e0a243d407a5b6.png)
+![入口界面](https://www.helloimg.com/i/2025/03/06/67c8f2c0f18a5.png)
 
 ### 新建环境
-![新建环境](https://pic1.imgdb.cn/item/67c123b2d0e0a243d407a5b5.png)
+![新建环境](https://www.helloimg.com/i/2025/03/06/67c8f2c020759.png)
 
 ### 安装日志
-![安装日志](https://pic1.imgdb.cn/item/67c123b1d0e0a243d407a5b3.png)
+![安装日志](https://www.helloimg.com/i/2025/03/06/67c8f2c09fdd6.png)
 
 ### 镜像源管理
-![镜像源管理](https://pic1.imgdb.cn/item/67c123b1d0e0a243d407a5b4.png)
+![镜像源管理](https://www.helloimg.com/i/2025/03/06/67c8f2c09a765.png)
 
 # 任务管理
 
@@ -438,7 +438,7 @@ TaskPyro提供了强大而灵活的任务管理功能，让您能够轻松创建
 3. 设置要执行的Python脚本命令（例如：`python script.py`）
 4. 配置任务的调度方式
 
-![新建任务界面](https://pic1.imgdb.cn/item/67c1240ed0e0a243d407a5c4.png)
+![新建任务界面](https://www.helloimg.com/i/2025/03/06/67c8f2eb516fd.png)
 
 ## 调度类型
 
@@ -478,7 +478,7 @@ TaskPyro的主界面提供了丰富的任务调度信息和操作功能：
 - 编辑任务配置
 - 添加/编辑任务标签，方便分类管理
 
-![任务列表界面](https://pic1.imgdb.cn/item/67c1240dd0e0a243d407a5c1.png)
+![任务列表界面](https://www.helloimg.com/i/2025/03/06/67c8f2ec0adeb.png)
 
 ## 执行历史
 
@@ -489,7 +489,7 @@ TaskPyro的主界面提供了丰富的任务调度信息和操作功能：
 - 执行耗时统计
 - 错误信息（如果执行失败）
 
-![执行历史界面](https://pic1.imgdb.cn/item/67c1240dd0e0a243d407a5c1.png)
+![执行历史界面](https://www.helloimg.com/i/2025/03/06/67c8f2eb6f17c.png)
 
 ## 运行日志
 
@@ -505,7 +505,7 @@ TaskPyro提供了强大的日志查看功能：
 - 支持暂停自动刷新
 - 可查看历史日志记录
 
-![运行日志界面](https://pic1.imgdb.cn/item/67c1240ed0e0a243d407a5c3.png)
+![运行日志界面](https://www.helloimg.com/i/2025/03/06/67c8f2ebdfdbc.png)
 
 ## 并发实例管理
 
@@ -612,3 +612,4 @@ TaskPyro提供了灵活的并发实例管理功能：
 
 | 微信：PJ221BBB | 公众号：布鲁的Python之旅 |
 |-------------|-----------------|
+| ![个人微信](https://www.helloimg.com/i/2025/03/06/67c8f41cc017f.png) | ![公众号](https://www.helloimg.com/i/2025/03/06/67c8f41ca7f2a.png) |
