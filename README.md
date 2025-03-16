@@ -95,7 +95,7 @@ git clone https://github.com/taskPyroer/taskpyro.git
 gitee
 
 ```bash
-git clone https://gitee.com/hu_yupeng123/taskpyrodocker.git
+git clone https://gitee.com/taskPyroer/taskpyrodocker.git
 ```
 
 > 可以直接拉取上面的代码，或者按下面的1、2、3步骤创建文件
