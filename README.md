@@ -3,7 +3,7 @@
 TaskPyro 是一个轻量级的 Python 任务调度平台，专注于提供简单易用的任务管理和爬虫调度解决方案。它能够帮助您轻松管理和调度 Python 任务，特别适合需要定时执行的爬虫任务和数据处理任务。
 
 ![登录界面](https://www.helloimg.com/i/2025/03/06/67c8f0ad6c9a1.png)
-![主界面](https://www.helloimg.com/i/2025/03/06/67c8f0adef1f7.png)
+![主界面](https://pic1.imgdb.cn/item/6809ec0158cb8da5c8c8e736.jpg)
 
 ## 开发背景
 
@@ -29,7 +29,7 @@ TaskPyro 特别适合以下用户群体：
 - 🚀 **创业团队**：需要一个轻量级但功能完整的任务调度解决方案
 
 ## 使用流程
-- 先配置Python环境
+- 配置Python环境和Python版本（系统会默认基础Python版本）
 - 创建项目
 - 创建定时任务
 
@@ -47,6 +47,8 @@ TaskPyro 提供了一系列强大的功能，帮助您高效管理 Python 任务
   - 支持多个 Python 虚拟环境
   - 环境隔离，避免依赖冲突
   - 支持 pip 包管理
+  - 支持官网资源包自动解压安装
+  - 内置Python版本管理工具
 
 - 🕷️ **爬虫框架支持**
   - 支持 Scrapy 等主流爬虫框架
@@ -57,6 +59,7 @@ TaskPyro 提供了一系列强大的功能，帮助您高效管理 Python 任务
   - 实时任务状态监控
   - 详细的执行日志记录
   - 任务执行统计分析
+  - 支持钉钉、飞书、企业微信通知
   - 异常通知与告警
 
 - 💼 **用户友好**
@@ -255,7 +258,7 @@ rm -rf /opt/taskpyrodata
 # 系统资源监控
 
 仪表盘提供了实时的系统资源使用情况监控，帮助您及时了解系统的运行状态。
-![仪表盘界面](https://www.helloimg.com/i/2025/03/06/67c8f0adef1f7.png)
+![仪表盘界面](https://pic1.imgdb.cn/item/6809ec0158cb8da5c8c8e736.jpg)
 ## CPU使用率
 
 显示当前系统的CPU使用百分比，以及最近的CPU负载情况。
@@ -417,13 +420,35 @@ TaskPyro提供了强大而灵活的Python虚拟环境管理功能，默认支持
 ![入口界面](https://www.helloimg.com/i/2025/03/06/67c8f2c0f18a5.png)
 
 ### 新建环境
-![新建环境](https://www.helloimg.com/i/2025/03/06/67c8f2c020759.png)
+![新建环境](https://pic1.imgdb.cn/item/6809faba58cb8da5c8c8ec07.png)
 
 ### 安装日志
 ![安装日志](https://www.helloimg.com/i/2025/03/06/67c8f2c09fdd6.png)
 
 ### 镜像源管理
 ![镜像源管理](https://www.helloimg.com/i/2025/03/06/67c8f2c09a765.png)
+
+# Python版本管理
+
+## 功能介绍
+
+TaskPyro提供了强大的Python版本管理功能，支持多个Python版本的并存和切换。通过简单的操作，您可以轻松地下载、安装和管理不同版本的Python环境，为不同的爬虫项目提供独立的运行环境。
+
+## 添加Python版本
+
+![添加Python版本界面](https://pic1.imgdb.cn/item/6809fc2158cb8da5c8c8ec90.png)
+
+1. 从官网（https://www.python.org/downloads/source/） 下载所需要的版本，请下载 Stable Releases 中的 XZ compressed source tarball 类型文件，即.tar.xz格式
+2. 填写版本名称、下载地址
+3. 点击「添加Python版本」按钮
+3. 系统会自动从Python官网下载对应的安装包
+4. 下载完成后，系统会自动解压并完成安装,整个过程耗时会较长，请耐心等待
+
+::: tip 提示
+- 仅支持下载Python官方发布的Stable版本
+- 下载源为Python官方网站，请确保网络连接正常
+- 选择.tar.xz格式的压缩包，下载速度更快
+:::
 
 # 任务管理
 
@@ -566,6 +591,10 @@ TaskPyro提供了灵活的并发实例管理功能：
 
 配置完成后，添加收件人邮箱地址，您可以点击"测试邮件"
 
+## 信息设置
+
+支持钉钉机器人、飞书、企业微信机器人
+
 # 订阅方案
 
 ## 免费版
@@ -602,10 +631,6 @@ TaskPyro提供了灵活的并发实例管理功能：
 ::: tip 备注说明
 加好友时请备注：taskpyro
 :::
-
-## 价格调整说明
-
-随着产品功能的不断完善和升级，价格可能会进行相应调整。建议您及时关注最新的价格信息。
 
 # 学习交流
 
