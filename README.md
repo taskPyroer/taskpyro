@@ -644,7 +644,7 @@ TaskPyro提供了灵活的并发实例管理功能：
 
 - 半年付：66元/6个月
 - 年付：99元/年
-- 永久：688/年
+- 永久：688元
 
 ## 购买方式
 
@@ -656,6 +656,6 @@ TaskPyro提供了灵活的并发实例管理功能：
 
 # 学习交流
 
-| 微信：PJ221BBB | 公众号：布鲁的Python之旅 |
-|-------------|-----------------|
-| ![个人微信](https://www.helloimg.com/i/2025/03/06/67c8f41cc017f.png) | ![公众号](https://www.helloimg.com/i/2025/03/06/67c8f41ca7f2a.png) |
+| 微信：PJ221BBB | 公众号：布鲁的Python之旅 | 交流群  | 
+|-------------|-----------------|-----------------|
+| ![个人微信](https://www.helloimg.com/i/2025/03/06/67c8f41cc017f.png) | ![公众号](https://www.helloimg.com/i/2025/03/06/67c8f41ca7f2a.png) | [https://www.helloimg.com/i/2025/05/10/681f0669f2cd9.png](https://www.helloimg.com/i/2025/05/10/681f0669f2cd9.png) |
