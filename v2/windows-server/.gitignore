@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.env
+venv/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Log files
+*.log
+logs/
+
+# Local development
+.env.local
+.env.*.local
+
+# Specific to windows_executor
+task_logs/
+secondary_uploads/
+secondary_venvs/
+virtual_environments/
+temp_scripts/
+worker_data.db
+worker_id.txt
+static/

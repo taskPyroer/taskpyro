@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+websockets
+pydantic
+psutil
+requests
+yagmail
+sqlalchemy
+python-multipart
+python-dotenv
