@@ -181,27 +181,119 @@ EOF
     log_success "Docker 安装完成"
 }
 
+# 检查Docker Compose版本
+check_compose_version() {
+    local compose_version=""
+    
+    # 尝试获取plugin版本
+    if docker compose version &> /dev/null; then
+        compose_version=$(docker compose version --short 2>/dev/null || docker compose version | grep -oE 'v?[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    # 尝试获取独立版本
+    elif command -v docker-compose &> /dev/null; then
+        compose_version=$(docker-compose --version | grep -oE 'v?[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    fi
+    
+    if [ -z "$compose_version" ]; then
+        echo "0.0.0"
+        return
+    fi
+    
+    # 移除可能的v前缀
+    compose_version=${compose_version#v}
+    echo "$compose_version"
+}
+
+# 比较版本号
+version_compare() {
+    local version1=$1
+    local version2=$2
+    
+    # 将版本号转换为数字进行比较
+    local v1_major=$(echo $version1 | cut -d. -f1)
+    local v1_minor=$(echo $version1 | cut -d. -f2)
+    local v1_patch=$(echo $version1 | cut -d. -f3)
+    
+    local v2_major=$(echo $version2 | cut -d. -f1)
+    local v2_minor=$(echo $version2 | cut -d. -f2)
+    local v2_patch=$(echo $version2 | cut -d. -f3)
+    
+    # 补充缺失的版本号部分
+    v1_major=${v1_major:-0}
+    v1_minor=${v1_minor:-0}
+    v1_patch=${v1_patch:-0}
+    
+    v2_major=${v2_major:-0}
+    v2_minor=${v2_minor:-0}
+    v2_patch=${v2_patch:-0}
+    
+    # 比较主版本号
+    if [ "$v1_major" -gt "$v2_major" ]; then
+        return 0  # version1 > version2
+    elif [ "$v1_major" -lt "$v2_major" ]; then
+        return 1  # version1 < version2
+    fi
+    
+    # 主版本号相同，比较次版本号
+    if [ "$v1_minor" -gt "$v2_minor" ]; then
+        return 0
+    elif [ "$v1_minor" -lt "$v2_minor" ]; then
+        return 1
+    fi
+    
+    # 次版本号相同，比较补丁版本号
+    if [ "$v1_patch" -ge "$v2_patch" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # 安装Docker Compose
 install_docker_compose() {
     log_info "检查 Docker Compose 安装状态..."
     
-    # 检查是否已经通过docker-compose-plugin安装
+    local current_version=$(check_compose_version)
+    local required_version="2.0.0"
+    
+    log_info "当前 Docker Compose 版本: $current_version"
+    log_info "要求最低版本: $required_version"
+    
+    # 检查是否已经通过docker-compose-plugin安装且版本符合要求
     if docker compose version &> /dev/null; then
-        log_success "Docker Compose (plugin) 已安装"
-        # 创建docker-compose命令的别名脚本
-        if [ ! -f /usr/local/bin/docker-compose ]; then
-            sudo tee /usr/local/bin/docker-compose > /dev/null << 'EOF'
+        if version_compare "$current_version" "$required_version"; then
+            log_success "Docker Compose (plugin) 已安装，版本符合要求: $current_version"
+            # 创建docker-compose命令的别名脚本
+            if [ ! -f /usr/local/bin/docker-compose ]; then
+                sudo tee /usr/local/bin/docker-compose > /dev/null << 'EOF'
 #!/bin/bash
 docker compose "$@"
 EOF
-            sudo chmod +x /usr/local/bin/docker-compose
-            log_info "已创建 docker-compose 命令别名"
+                sudo chmod +x /usr/local/bin/docker-compose
+                log_info "已创建 docker-compose 命令别名"
+            fi
+            return 0
+        else
+            log_warning "Docker Compose plugin 版本过低 ($current_version < $required_version)，需要升级"
         fi
-        return 0
     fi
     
-    # 如果plugin版本不可用，则安装独立版本
-    log_info "安装独立版本的 Docker Compose..."
+    # 检查独立版本是否符合要求
+    if command -v docker-compose &> /dev/null && [ "$current_version" != "0.0.0" ]; then
+        if version_compare "$current_version" "$required_version"; then
+            log_success "Docker Compose 独立版本已安装，版本符合要求: $current_version"
+            return 0
+        else
+            log_warning "Docker Compose 独立版本过低 ($current_version < $required_version)，正在升级..."
+            # 备份旧版本
+            if [ -f /usr/local/bin/docker-compose ]; then
+                sudo mv /usr/local/bin/docker-compose /usr/local/bin/docker-compose.backup.$(date +%Y%m%d_%H%M%S)
+                log_info "已备份旧版本 Docker Compose"
+            fi
+        fi
+    fi
+    
+    # 安装或升级到新版本
+    log_info "安装/升级 Docker Compose 到版本 2.0+..."
     
     # 使用固定版本以确保稳定性
     COMPOSE_VERSION="v2.24.1"
@@ -225,7 +317,14 @@ EOF
     
     sudo chmod +x /usr/local/bin/docker-compose
     
-    log_success "Docker Compose 安装完成"
+    # 验证安装结果
+    local new_version=$(check_compose_version)
+    if version_compare "$new_version" "$required_version"; then
+        log_success "Docker Compose 安装/升级完成，当前版本: $new_version"
+    else
+        log_error "Docker Compose 安装/升级失败，版本检查不通过"
+        return 1
+    fi
 }
 
 # 检查并安装Docker环境
