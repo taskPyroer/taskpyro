@@ -4,9 +4,13 @@ TaskPyro 是一个轻量级的 Python 任务调度平台，专注于提供简单
 
 > 官网文档：https://docs.taskpyro.cn/
 
+
 ![登录界面](https://pic1.imgdb.cn/item/686a6c9358cb8da5c8928c94.png)
 ![主界面](https://pic1.imgdb.cn/item/686a6bc658cb8da5c8928c41.png)
 
+**特别感谢以下赞助商的支持：**
+
+[![thordata](images/thordata.png)](https://www.thordata.com/?ls=github&lk=taskpyro)
 
 ## 开发背景
 
