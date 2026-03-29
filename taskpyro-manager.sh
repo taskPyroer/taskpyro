@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # TaskPyro 专业版Linux一键管理脚本
-# 版本: 1.0
+# 版本: 2.0
 # 作者: TaskPyro Team
 # 描述: 提供TaskPyro标准版/专业版Linux环境的一键安装、配置、启动、停止、升级、删除等功能
 
@@ -603,7 +603,7 @@ install_taskpyro() {
     
     echo
     echo "请选择 TaskPyro 版本:"
-    echo "1) 标准版 (基础功能，支持在标准版基础上升级到专业版)"
+    echo "1) 标准版 (基础功能)"
     echo "2) 专业版 (完整功能，推荐)"
     read -p "请输入选择 (1-2): " version_choice
     
@@ -834,6 +834,17 @@ upgrade_service() {
             2)
                 log_warning "升级到 2.x 版本需要修改 docker-compose.yml 文件"
                 echo
+                log_warning "重要提示：从 v1 升级到 v2 需要删除宿主机的映射保存地址"
+                log_warning "如果需要保留数据，请提前做好备份记录"
+                log_warning "接下来的升级过程会删除并重建映射保存地址"
+                echo
+                read -p "是否已了解并准备好进行升级？(Y/n): " ready_to_upgrade
+                
+                if [[ $ready_to_upgrade != [yY] ]]; then
+                    log_info "取消升级操作"
+                    return 0
+                fi
+                
                 echo "检测到以下需要升级的镜像："
                 if grep -q "taskpyro-frontend:1" docker-compose.yml; then
                     echo "- frontend: 1.x -> 2.0"
@@ -899,6 +910,28 @@ upgrade_service() {
         return 0
     fi
     
+    # 如果是从v1升级到v2，删除并重建持久化目录
+    if [ "$current_version" = "1.x" ] && [ "$upgrade_choice" = "2" ]; then
+        log_info "正在删除并重建持久化目录..."
+        
+        # 从.env文件读取数据目录
+        if [ -f ".env" ]; then
+            source .env
+            DATA_DIR=${DATA_DIR:-/opt/taskpyrodata}
+        else
+            DATA_DIR=/opt/taskpyrodata
+        fi
+        
+        log_info "删除持久化目录: $DATA_DIR"
+        sudo rm -rf "$DATA_DIR"
+        
+        log_info "重建持久化目录: $DATA_DIR"
+        sudo mkdir -p "$DATA_DIR"
+        sudo chmod 755 "$DATA_DIR"
+        
+        log_success "持久化目录已重置完成"
+    fi
+    
     # 拉取最新镜像
     log_info "拉取最新镜像..."
     if ! docker-compose pull; then
@@ -946,7 +979,7 @@ uninstall_taskpyro() {
     
     # 删除镜像
     log_info "删除 TaskPyro 镜像..."
-    docker images | grep taskpyro | awk '{print $3}' | xargs -r docker rmi -f
+    docker images --format "{{.ID}}" | grep -E "^[a-f0-9]{12}" | xargs -r docker rmi -f 2>/dev/null || true
     
     # 删除项目文件（从脚本同级目录删除）
     local script_dir=$(dirname "$(readlink -f "$0")")
@@ -964,13 +997,30 @@ uninstall_taskpyro() {
     
     # 询问是否删除数据
     echo
+    # 从.env文件读取数据目录
+    if [ -f ".env" ]; then
+        source .env
+        DATA_DIR=${DATA_DIR:-/opt/taskpyrodata}
+    else
+        DATA_DIR=/opt/taskpyrodata
+    fi
+    
     log_warning "是否同时删除数据目录 $DATA_DIR ？"
     log_warning "警告：此操作将永久删除所有任务数据、日志等信息！"
     read -p "删除数据目录？(y/N): " delete_data
     
     if [[ $delete_data == [yY] ]]; then
-        sudo rm -rf $DATA_DIR
-        log_success "数据目录已删除"
+        log_info "正在删除数据目录: $DATA_DIR"
+        if [ -d "$DATA_DIR" ]; then
+            sudo rm -rf "$DATA_DIR"
+            if [ $? -eq 0 ]; then
+                log_success "数据目录已删除"
+            else
+                log_error "数据目录删除失败，请检查权限"
+            fi
+        else
+            log_info "数据目录不存在，无需删除"
+        fi
     else
         log_info "保留数据目录: $DATA_DIR"
     fi
@@ -978,6 +1028,40 @@ uninstall_taskpyro() {
     # 注释：不再需要清理配置目录，因为现在使用简化的目录结构
     
     log_success "TaskPyro 卸载完成"
+}
+
+# 删除持久化目录
+delete_data_dir() {
+    log_warning "即将删除持久化目录，此操作将永久删除所有任务数据、日志等信息！"
+    
+    # 从.env文件读取数据目录
+    if [ -f ".env" ]; then
+        source .env
+        DATA_DIR=${DATA_DIR:-/opt/taskpyrodata}
+    else
+        DATA_DIR=/opt/taskpyrodata
+    fi
+    
+    log_info "持久化目录路径: $DATA_DIR"
+    
+    read -p "是否确定要删除持久化目录？(y/N): " confirm
+    
+    if [[ $confirm != [yY] ]]; then
+        log_info "取消删除操作"
+        return
+    fi
+    
+    log_info "正在删除持久化目录..."
+    if [ -d "$DATA_DIR" ]; then
+        sudo rm -rf "$DATA_DIR"
+        if [ $? -eq 0 ]; then
+            log_success "持久化目录已删除"
+        else
+            log_error "持久化目录删除失败，请检查权限"
+        fi
+    else
+        log_info "持久化目录不存在，无需删除"
+    fi
 }
 
 # 显示帮助信息
@@ -995,13 +1079,14 @@ show_help() {
     echo "  logs        查看服务日志"
     echo "  upgrade     升级到最新版本"
     echo "  fix         修复Docker兼容性问题"
+    echo "  delete-data 删除持久化目录"
     echo ""
     echo "  uninstall   卸载 TaskPyro"
     echo "  help        显示帮助信息"
     echo
     echo "说明:"
     echo "  此脚本用于部署TaskPyro的Linux主控节点"
-    echo "  支持标准版(免费)和专业版(完整功能)选择"
+    echo "  支持标准版和专业版(完整功能)选择"
     echo "  主控节点具备任务执行和管理能力"
     echo "  如果不提供参数，将显示交互式菜单"
 }
@@ -1021,10 +1106,11 @@ show_menu() {
         echo "6) 查看服务日志"
         echo "7) 升级到最新版本"
         echo "8) 修复Docker兼容性问题"
-        echo "9) 卸载 TaskPyro"
+        echo "9) 卸载 TaskPyro (卸载后会询问是否删除持久化目录)"
+        echo "10) 删除持久化目录"
         echo "0) 退出"
         echo "==========================================="
-        read -p "请选择操作 (0-9): " choice
+        read -p "请选择操作 (0-10): " choice
         
         case $choice in
             1) install_taskpyro ;;
@@ -1036,6 +1122,7 @@ show_menu() {
             7) check_taskpyro_workdir "upgrade" && upgrade_service ;;
             8) check_taskpyro_workdir "fix" && fix_docker_compatibility ;;
             9) check_taskpyro_workdir "uninstall" && uninstall_taskpyro ;;
+            10) check_taskpyro_workdir "delete_data" && delete_data_dir ;;
             0) 
                 log_info "感谢使用 TaskPyro 管理工具！"
                 exit 0
@@ -1127,6 +1214,9 @@ main() {
             ;;
         fix)
             fix_docker_compatibility
+            ;;
+        delete-data)
+            delete_data_dir
             ;;
         uninstall)
             uninstall_taskpyro
