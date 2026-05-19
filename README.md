@@ -10,7 +10,10 @@ TaskPyro 是一个轻量级的 Python 任务调度平台，专注于提供简单
 
 **特别感谢以下赞助商的支持（排序不分先后）：**
 
-[![thordata](images/thordata.png)](https://www.thordata.com/?ls=github&lk=taskpyro)
+
+
+[![CoreClaw抓取平台](images/thordata.png)](https://www.coreclaw.com/?utm_source=github&utm_medium=referral&utm_campaign=taskpyro&utm_term=taskpyro&utm_id=taskpyro)
+
 
 [![rapidproxy](images/rapidproxy.png)](https://www.rapidproxy.io/?ref=blues)
 
